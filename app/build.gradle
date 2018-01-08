@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'realm-android'
+
 ext.versionMajor = 0
 ext.versionMinor = 1
 ext.versionPatch = 0
@@ -52,6 +54,16 @@ dependencies {
     // Rx
     implementation "io.reactivex.rxjava2:rxjava:$rx_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version") {
+        exclude module: 'okhttp'
+    }
+    implementation "com.squareup.okhttp3:okhttp:$ok_http_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$ok_http_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_gson_converter_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_rx_adapter_version"
+    implementation "com.google.code.gson:gson:$gson_version"
 
     // DI
     implementation "com.google.dagger:dagger:$dagger_version"
