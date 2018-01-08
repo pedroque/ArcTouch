@@ -6,6 +6,8 @@ import com.arctouch.test.di.AppInjector
 import com.facebook.drawee.backends.pipeline.Fresco
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import io.realm.Realm
+import io.realm.RealmConfiguration
 import javax.inject.Inject
 
 
@@ -18,5 +20,9 @@ class ArcTouchApp : Application(), HasActivityInjector{
         super.onCreate()
         Fresco.initialize(this)
         AppInjector.init(this)
+        Realm.init(this)
+        Realm.setDefaultConfiguration(RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build())
     }
 }

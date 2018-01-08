@@ -1,4 +1,4 @@
-package com.example.pedroabinajm.mvvmtest.di
+package com.arctouch.test.di
 
 import javax.inject.Scope
 

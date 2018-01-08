@@ -21,6 +21,7 @@ import com.arctouch.test.app.ArcTouchApp
 
 import com.arctouch.test.di.module.ActivityModule
 import com.arctouch.test.di.module.AppModule
+import com.arctouch.test.di.module.NetModule
 
 import javax.inject.Singleton
 
@@ -31,7 +32,8 @@ import dagger.android.AndroidInjectionModule
 @Singleton
 @Component(modules = arrayOf(AndroidInjectionModule::class,
         AppModule::class,
-        ActivityModule::class))
+        ActivityModule::class,
+        NetModule::class))
 interface AppComponent {
     @Component.Builder
     interface Builder {

@@ -16,9 +16,16 @@
 
 package com.arctouch.test.di.module
 
+import com.arctouch.test.di.ActivityScope
+import com.arctouch.test.ui.activity.SplashActivity
 import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class ActivityModule {
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [(ConfigModule::class)])
+    internal abstract fun contributeSplashActivity(): SplashActivity
 
 }
