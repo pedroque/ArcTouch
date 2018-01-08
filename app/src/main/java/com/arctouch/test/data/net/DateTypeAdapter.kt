@@ -1,4 +1,4 @@
-package com.arctouch.test.net
+package com.arctouch.test.data.net
 
 import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader

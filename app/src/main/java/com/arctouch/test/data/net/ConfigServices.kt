@@ -1,4 +1,4 @@
-package com.arctouch.test.net
+package com.arctouch.test.data.net
 
 import com.arctouch.test.data.entity.ConfigResponse
 import io.reactivex.Observable

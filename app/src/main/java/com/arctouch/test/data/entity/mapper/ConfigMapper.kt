@@ -13,20 +13,10 @@ class ConfigMapper @Inject constructor() : Mapper<Config, ConfigEntity> {
         config.date = Date()
         config.baseUrl = entity.baseUrl
         config.secureBaseUrl = entity.secureBaseUrl
-        entity.backdropSizes?.let {
-            val list = RealmList<String>()
-            it.forEach {
-                list.add(it)
-            }
-            config.backdropSizes = list
-        }
-        entity.posterSizes?.let {
-            val list = RealmList<String>()
-            it.forEach {
-                list.add(it)
-            }
-            config.posterSizes = list
-        }
+        config.backdropSizes = RealmList()
+        entity.backdropSizes?.mapTo(config.backdropSizes, {it})
+        config.posterSizes = RealmList()
+        entity.posterSizes?.mapTo(config.posterSizes, {it})
         return config
     }
 }

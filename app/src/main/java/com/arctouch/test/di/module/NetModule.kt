@@ -7,7 +7,7 @@ import com.arctouch.test.di.Environment
 import com.arctouch.test.di.GsonTypeAdapter
 import com.arctouch.test.di.LogInterceptor
 import com.arctouch.test.di.NamedString
-import com.arctouch.test.net.*
+import com.arctouch.test.data.net.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
@@ -19,7 +19,6 @@ import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.jetbrains.annotations.NotNull
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory

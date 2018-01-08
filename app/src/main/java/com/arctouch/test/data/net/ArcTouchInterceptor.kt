@@ -1,12 +1,10 @@
-package com.arctouch.test.net
+package com.arctouch.test.data.net
 
 import java.io.IOException
-import java.util.Locale
 
 import javax.inject.Inject
 
 import okhttp3.Interceptor
-import okhttp3.Request
 import okhttp3.Response
 
 class ArcTouchInterceptor @Inject

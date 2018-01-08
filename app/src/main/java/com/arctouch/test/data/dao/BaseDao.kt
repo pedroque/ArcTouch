@@ -1,9 +1,9 @@
-package com.arctouch.test.dao
+package com.arctouch.test.data.dao
 
 import io.realm.Realm
 import io.realm.RealmObject
 
-abstract class BaseDAO<T : RealmObject>(protected var mClass: Class<T>) {
+abstract class BaseDao<T : RealmObject>(protected var mClass: Class<T>) {
 
     fun save(list: List<T>) {
         Realm.getDefaultInstance().use { realm ->

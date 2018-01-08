@@ -1,4 +1,4 @@
-package com.arctouch.test.net
+package com.arctouch.test.data.net
 
 interface ApiConfig {
 
