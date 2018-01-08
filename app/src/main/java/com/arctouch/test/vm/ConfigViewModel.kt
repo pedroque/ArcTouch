@@ -1,5 +1,6 @@
 package com.arctouch.test.vm
 
+import android.arch.lifecycle.MutableLiveData
 import com.arctouch.test.data.model.Config
 import com.arctouch.test.data.repository.ConfigRepository
 import com.arctouch.test.schedulers.ISchedulerProvider
@@ -10,9 +11,11 @@ class ConfigViewModel constructor(
         schedulerProvider: ISchedulerProvider
 ) : BaseViewModel(schedulerProvider) {
 
-    fun getConfig(): Observable<Config> {
-        return configRepository.getConfig()
-                .subscribeOn(schedulerProvider.computation())
-                .observeOn(schedulerProvider.ui())
+    val config = MutableLiveData<Config>()
+
+    fun fetchConfig(): Observable<Config> {
+        return execute(configRepository.getConfig(), {
+            config.postValue(it)
+        })
     }
 }

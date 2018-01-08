@@ -33,7 +33,7 @@ class ConfigViewModelTest {
     fun getConfig() {
         val config = Config()
         Mockito.`when`(configRepository.getConfig()).thenReturn(Observable.just(config))
-        configViewModel.getConfig()
+        configViewModel.fetchConfig()
                 .test()
                 .assertNoErrors()
                 .assertComplete()

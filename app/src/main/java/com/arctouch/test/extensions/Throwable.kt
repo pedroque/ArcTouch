@@ -12,7 +12,7 @@ val Throwable.errorType: ErrorType
 val Throwable.friendlyMessage: Int
     get() = when (errorType) {
         ErrorType.CONNECTION -> R.string.network_error
-        ErrorType.UNEXPECTED -> R.string.unexpected_error
+        else -> R.string.unexpected_error
     }
 
 enum class ErrorType {

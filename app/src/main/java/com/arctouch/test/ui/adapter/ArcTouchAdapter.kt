@@ -10,6 +10,7 @@ import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.arctouch.test.BR
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -93,7 +94,7 @@ abstract class ArcTouchAdapter(private val dataBindingComponent: DataBindingComp
         }
 
         open fun bind(o: Any) {
-//            binding.setVariable(BR.item, o)
+            binding.setVariable(BR.item, o)
             binding.executePendingBindings()
         }
     }

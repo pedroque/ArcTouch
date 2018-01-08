@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="java.util.List" />
+
+        <import type="com.arctouch.test.data.model.Genre" />
+
+        <variable
+            name="item"
+            type="com.arctouch.test.data.model.Movie" />
+
+        <variable
+            name="config"
+            type="com.arctouch.test.data.model.Config" />
+
+        <variable
+            name="genres"
+            type="List&lt;Genre&gt;" />
+    </data>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
+        android:paddingBottom="8dp"
+        android:paddingEnd="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/movie_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/movie_image"
+            app:config="@{config}"
+            app:url="@{item.posterPath ?? item.backdropPath}" />
+
+        <TextView
+            android:id="@+id/movie_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/movie_image"
+            android:layout_toRightOf="@id/movie_image"
+            android:ellipsize="end"
+            android:text="@{item.title}"
+            tools:text="Star Wars: The Last Jedi" />
+
+        <TextView
+            android:id="@+id/release_date_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/movie_name_text"
+            android:layout_alignLeft="@id/movie_name_text"
+            android:layout_alignRight="@id/movie_name_text"
+            android:layout_alignStart="@id/movie_name_text"
+            android:layout_below="@id/movie_name_text"
+            android:ellipsize="end"
+            android:text="@{item.releaseDate.toString()}"
+            app:showIf="@{item.releaseDate != null}"
+            tools:text="2017" />
+
+        <TextView
+            android:id="@+id/genre_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@id/movie_name_text"
+            android:layout_alignLeft="@id/movie_name_text"
+            android:layout_alignRight="@id/movie_name_text"
+            android:layout_alignStart="@id/movie_name_text"
+            android:layout_below="@id/release_date_text"
+            android:ellipsize="end"
+            app:genres="@{genres}"
+            app:genres_ids="@{item.genreIds}"
+            app:showIf="@{genres != null}"
+            tools:text="Açao" />
+    </RelativeLayout>
+</layout>

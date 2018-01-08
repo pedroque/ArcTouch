@@ -6,7 +6,7 @@ import com.arctouch.test.app.Preferences
 import com.arctouch.test.di.Environment
 import com.arctouch.test.di.GsonTypeAdapter
 import com.arctouch.test.di.LogInterceptor
-import com.arctouch.test.di.NamedString
+import com.arctouch.test.di.Named
 import com.arctouch.test.data.net.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -45,7 +45,7 @@ class NetModule {
     internal fun getInternalApiConfig(debugApiConfig: DebugApiConfig): ApiConfig = debugApiConfig
 
     @Provides
-    @NamedString("api_key")
+    @Named("api_key")
     @Reusable
     internal fun getApiKey(preferences: Preferences) = preferences.api_key
 
@@ -111,4 +111,9 @@ class NetModule {
     @Reusable
     internal fun provideConfigServices(retrofit: Retrofit) =
             retrofit.create<ConfigServices>(ConfigServices::class.java)
+
+    @Provides
+    @Reusable
+    internal fun provideGenreServices(retrofit: Retrofit) =
+            retrofit.create<GenreServices>(GenreServices::class.java)
 }
