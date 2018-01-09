@@ -21,10 +21,13 @@ abstract class ArcTouchActivity : AppCompatActivity(), Injectable {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> finish()
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     internal open fun setUp(savedInstanceState: Bundle?) {

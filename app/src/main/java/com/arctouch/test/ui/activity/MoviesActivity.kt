@@ -45,10 +45,13 @@ class MoviesActivity : ArcTouchActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_search -> navigateToSearch()
+        return when (item.itemId) {
+            R.id.action_search -> {
+                navigateToSearch()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun setUp(savedInstanceState: Bundle?) {
