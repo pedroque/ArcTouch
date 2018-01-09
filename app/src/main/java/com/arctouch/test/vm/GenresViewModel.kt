@@ -6,7 +6,7 @@ import com.arctouch.test.data.repository.GenreRepository
 import com.arctouch.test.schedulers.ISchedulerProvider
 import io.reactivex.Observable
 
-class GenresViewModel constructor(
+class   GenresViewModel constructor(
         private val genresRepository: GenreRepository,
         schedulerProvider: ISchedulerProvider
 ) : BaseViewModel(schedulerProvider) {

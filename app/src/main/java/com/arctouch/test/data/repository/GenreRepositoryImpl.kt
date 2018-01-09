@@ -1,5 +1,6 @@
 package com.arctouch.test.data.repository
 
+import com.arctouch.test.data.cache.Cache
 import com.arctouch.test.data.cache.GenreCache
 import com.arctouch.test.data.model.Genre
 import com.arctouch.test.data.repository.datasource.GenreDataSource
@@ -9,7 +10,8 @@ import javax.inject.Inject
 
 
 class GenreRepositoryImpl @Inject constructor(
-        private val genreCache: GenreCache,
+        @Named("genres")
+        private val genreCache: Cache<List<Genre>>,
         @Named("cloud")
         private val cloudGenreDataSource: GenreDataSource,
         @Named("cache")

@@ -28,10 +28,10 @@ class MoviesAdapter : EndlessAdapter() {
     inner class MovieViewHolder(private val binding: ViewDataBinding) : ViewHolder(binding) {
 
         init {
-            itemView.item.setOnClickListener {
+            itemView?.item?.setOnClickListener {
                 if (adapterPosition != -1) clickSubject.onNext(adapterPosition)
             }
-            itemView.item.setOnLongClickListener {
+            itemView?.item?.setOnLongClickListener {
                 if (adapterPosition != -1) longClickSubject.onNext(adapterPosition)
                 longClickSubject.hasObservers()
             }

@@ -1,16 +1,19 @@
 package com.arctouch.test.data.repository
 
-import com.arctouch.test.data.cache.ConfigCache
+import com.arctouch.test.data.cache.Cache
 import com.arctouch.test.data.model.Config
-import com.arctouch.test.data.repository.datasource.CacheConfigDataSource
-import com.arctouch.test.data.repository.datasource.CloudConfigDataSource
+import com.arctouch.test.data.repository.datasource.ConfigDataSource
+import com.arctouch.test.di.Named
 import io.reactivex.Observable
 import javax.inject.Inject
 
 class ConfigRepositoryImpl @Inject constructor(
-        private val configCache: ConfigCache,
-        private val cacheConfigDataStore: CacheConfigDataSource,
-        private val cloudConfigDataStore: CloudConfigDataSource
+        @Named("config")
+        private val configCache: Cache<Config>,
+        @Named("cache")
+        private val cacheConfigDataStore: ConfigDataSource,
+        @Named("cloud")
+        private val cloudConfigDataStore: ConfigDataSource
 ) : ConfigRepository {
     override fun getConfig(): Observable<Config> {
         return if (configCache.isExpired()) {

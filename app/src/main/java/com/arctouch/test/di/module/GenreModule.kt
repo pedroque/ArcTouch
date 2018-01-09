@@ -41,6 +41,11 @@ class GenreModule {
 
     @Provides
     @Reusable
+    @Named("genres")
+    internal fun provideGenresCache(genresCache: GenreCache): Cache<List<Genre>> = genresCache
+
+    @Provides
+    @Reusable
     internal fun provideGenreRepository(genreRepository: GenreRepositoryImpl): GenreRepository = genreRepository
 
     @Provides
