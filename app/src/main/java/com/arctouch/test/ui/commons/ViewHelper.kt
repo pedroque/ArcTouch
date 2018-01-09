@@ -2,10 +2,19 @@ package com.arctouch.test.ui.commons
 
 import android.R
 import android.animation.Animator
+import android.graphics.Rect
 import android.view.View
+import android.view.Window
 import android.view.animation.AccelerateDecelerateInterpolator
 
 object ViewHelper {
+
+    // A method to findAsync height of the status bar
+    fun getStatusBarHeight(window: Window): Int {
+        val rectangle = Rect()
+        window.decorView.getWindowVisibleDisplayFrame(rectangle)
+        return rectangle.top
+    }
 
     fun hideViewAnimated(view: View, duration: Int, hideState: Int) {
         hideViewAnimated(view, duration, HideViewAnimatorListener(view, hideState))

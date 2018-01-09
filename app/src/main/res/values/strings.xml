@@ -5,4 +5,6 @@
     <string name="movie_image">Movie image</string>
     <string name="genres_loading">Loading genres</string>
     <string name="empty_movies">No movie found.\\nSearch only for good movies, please.</string>
+    <string name="upcoming_movies_title">Upcoming Movies</string>
+    <string name="search">Search movies</string>
 </resources>

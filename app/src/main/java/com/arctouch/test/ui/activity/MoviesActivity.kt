@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.Menu
 import android.widget.Toast
 import com.arctouch.test.R
 import com.arctouch.test.data.model.Config
@@ -38,6 +39,11 @@ class MoviesActivity : ArcTouchActivity() {
 
     private var adapter: MoviesAdapter? = null
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_movies, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun setUp(savedInstanceState: Bundle?) {
         super.setUp(savedInstanceState)
         dataBinding = DataBindingUtil.inflate(layoutInflater, R.layout.activity_movies, null, false)
@@ -49,9 +55,15 @@ class MoviesActivity : ArcTouchActivity() {
 
     override fun onViewCreated(savedInstanceState: Bundle?) {
         super.onViewCreated(savedInstanceState)
+        setSupportActionBar(toolbar)
         movies_recycler.setHasFixedSize(true)
         movies_recycler.layoutManager = LinearLayoutManager(this)
         adapter = MoviesAdapter()
+        adapter?.clickSubject?.subscribe {
+            moviesViewModel.movies.value?.data?.movies?.get(it)?.let {
+                navigateToMovie(it)
+            }
+        }
         adapter?.replace(mutableListOf<Movie>())
         movies_recycler.adapter = adapter
         val scrollListener = object : EndlessScrollListener() {
@@ -97,6 +109,10 @@ class MoviesActivity : ArcTouchActivity() {
         if (moviesViewModel.movies.value == null) {
             moviesViewModel.nextPage()
         }
+    }
+
+    private fun navigateToMovie(movie: Movie) {
+        startActivity(MovieActivity.getIntent(this, movie))
     }
 
     private fun setNextPageError(message: Int) {

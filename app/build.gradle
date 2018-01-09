@@ -21,6 +21,7 @@ android {
         versionCode computeVersionCode()
         versionName computeVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -47,6 +48,8 @@ dependencies {
     // Android Support
     implementation "com.android.support:appcompat-v7:$android_support_verion"
     implementation "com.android.support:recyclerview-v7:$android_support_verion"
+    implementation "com.android.support:cardview-v7:$android_support_verion"
+    implementation "com.android.support:design:$android_support_verion"
 
     // Fresco Lib
     implementation "com.facebook.fresco:fresco:$fresco_version"

@@ -22,71 +22,86 @@
             type="List&lt;Genre&gt;" />
     </data>
 
-
-    <RelativeLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?attr/selectableItemBackground"
-        android:paddingBottom="8dp"
-        android:paddingEnd="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingStart="16dp"
-        android:paddingTop="8dp">
+        android:layout_height="wrap_content">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/movie_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/movie_image"
-            app:placeholderImage="@drawable/ic_launcher_background"
-            app:config="@{config}"
-            app:item="@{item}" />
-
-        <TextView
-            android:id="@+id/movie_name_text"
+        <RelativeLayout
+            android:id="@+id/item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_toEndOf="@id/movie_image"
-            android:layout_toRightOf="@id/movie_image"
-            android:ellipsize="end"
-            android:text="@{item.title}"
-            tools:text="Star Wars: The Last Jedi" />
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:background="@android:color/black"
+            android:paddingBottom="16dp">
 
-        <TextView
-            android:id="@+id/release_date_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/movie_name_text"
-            android:layout_alignLeft="@id/movie_name_text"
-            android:layout_alignRight="@id/movie_name_text"
-            android:layout_alignStart="@id/movie_name_text"
-            android:layout_below="@id/movie_name_text"
-            android:ellipsize="end"
-            android:text="@{item.releaseYear}"
-            app:showIf="@{item.releaseDate != null}"
-            tools:text="2017" />
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/movie_image"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:contentDescription="@string/movie_image"
+                app:config="@{config}"
+                app:item="@{item}"
+                app:placeholderImage="@drawable/ic_launcher_background" />
 
-        <TextView
-            android:id="@+id/genre_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@id/movie_name_text"
-            android:layout_alignLeft="@id/movie_name_text"
-            android:layout_alignRight="@id/movie_name_text"
-            android:layout_alignStart="@id/movie_name_text"
-            android:layout_below="@id/release_date_text"
-            android:ellipsize="end"
-            app:genres="@{genres}"
-            app:genres_ids="@{item.genreIds}"
-            app:showIf="@{genres != null}"
-            tools:text="Açao" />
-    </RelativeLayout>
+
+            <View android:id="@+id/layer_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/movie_image"
+                android:layout_alignBottom="@id/movie_image"
+                android:background="@drawable/image_layer"/>
+
+            <TextView
+                android:id="@+id/movie_name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/movie_image"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginStart="16dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{item.title}"
+                style="@style/Text.Title.White"
+                tools:text="Star Wars: The Last Jedi" />
+
+            <TextView
+                android:id="@+id/release_date_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/movie_name_text"
+                android:layout_alignLeft="@id/movie_name_text"
+                android:layout_alignRight="@id/movie_name_text"
+                android:layout_alignStart="@id/movie_name_text"
+                android:layout_below="@id/movie_image"
+                android:ellipsize="end"
+                android:text="@{item.releaseYear}"
+                style="@style/Text.Body"
+                app:showIf="@{item.releaseDate != null}"
+                tools:text="2017" />
+
+            <TextView
+                android:id="@+id/genre_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/movie_name_text"
+                android:layout_alignLeft="@id/movie_name_text"
+                android:layout_alignRight="@id/movie_name_text"
+                android:layout_alignStart="@id/movie_name_text"
+                android:layout_below="@id/release_date_text"
+                android:ellipsize="end"
+                style="@style/Text.Caption"
+                android:maxLines="1"
+                app:genres="@{genres}"
+                app:genres_ids="@{item.genreIds}"
+                app:showIf="@{genres != null}"
+                tools:text="Açao" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 </layout>

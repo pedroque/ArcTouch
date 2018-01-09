@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -13,48 +12,69 @@
 
     </data>
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary" />
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:visibility="gone"
+            android:theme="@style/ToolbarTheme"
+            app:showIf="@{!resource.isEmpty}">
 
-        <RelativeLayout
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/movies_recycler"
+            <android.support.design.widget.CollapsingToolbarLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:alpha="0"
-                android:visibility="gone"
-                app:showIf="@{!resource.isEmpty}" />
+                android:layout_height="150dp"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ProgressBar
-                android:id="@+id/progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                app:showIf="@{resource.status == Status.LOADING &amp;&amp; resource.isEmpty}"/>
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/colorPrimary"
+                    android:minHeight="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:title="@string/upcoming_movies_title" />
+            </android.support.design.widget.CollapsingToolbarLayout>
 
-            <TextView
-                android:id="@+id/error_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_margin="56dp"
-                android:alpha="0"
-                android:gravity="center"
-                android:visibility="gone"
-                app:resourceText="@{resource}"
-                app:showIf="@{(resource.isEmpty || resource.status == Status.ERROR) &amp;&amp; resource.status != Status.LOADING}"/>
-        </RelativeLayout>
-    </LinearLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/movies_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:visibility="gone"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:showIf="@{!resource.isEmpty &amp;&amp; resource.status != Status.LOADING}" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            app:showIf="@{resource.status == Status.LOADING &amp;&amp; resource.isEmpty}" />
+
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:layout_margin="56dp"
+            android:alpha="0"
+            android:gravity="center"
+            android:visibility="gone"
+            app:resourceText="@{resource}"
+            app:showIf="@{(resource.isEmpty || resource.status == Status.ERROR) &amp;&amp; resource.status != Status.LOADING}" />
+    </android.support.design.widget.CoordinatorLayout>
 </layout>

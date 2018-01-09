@@ -5,6 +5,7 @@ import com.arctouch.test.BR
 import com.arctouch.test.R
 import com.arctouch.test.data.model.Config
 import com.arctouch.test.data.model.Genre
+import kotlinx.android.synthetic.main.item_movie.view.*
 
 class MoviesAdapter : EndlessAdapter() {
 
@@ -25,6 +26,16 @@ class MoviesAdapter : EndlessAdapter() {
     override fun getViewHolderForLayout(layout: Int, binding: ViewDataBinding) = MovieViewHolder(binding)
 
     inner class MovieViewHolder(private val binding: ViewDataBinding) : ViewHolder(binding) {
+
+        init {
+            itemView.item.setOnClickListener {
+                if (adapterPosition != -1) clickSubject.onNext(adapterPosition)
+            }
+            itemView.item.setOnLongClickListener {
+                if (adapterPosition != -1) longClickSubject.onNext(adapterPosition)
+                longClickSubject.hasObservers()
+            }
+        }
 
         override fun bind(o: Any) {
             binding.setVariable(BR.config, config)
