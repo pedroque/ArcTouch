@@ -70,7 +70,7 @@
             android:layout_alignStart="@id/movie_name_text"
             android:layout_below="@id/movie_name_text"
             android:ellipsize="end"
-            android:text="@{item.releaseDate.toString()}"
+            android:text="@{item.releaseYear}"
             app:showIf="@{item.releaseDate != null}"
             tools:text="2017" />
 
