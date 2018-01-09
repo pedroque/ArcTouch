@@ -18,6 +18,9 @@ class MoviesViewModelFactory @Inject constructor(
         if (modelClass.isAssignableFrom(MoviesViewModel::class.java)) {
             return MoviesViewModel(moviesRepository, schedulerProvider) as T
         }
+        if (modelClass.isAssignableFrom(SearchMoviesViewModel::class.java)) {
+            return SearchMoviesViewModel(moviesRepository, schedulerProvider) as T
+        }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 

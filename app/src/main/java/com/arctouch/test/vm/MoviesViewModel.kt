@@ -10,18 +10,27 @@ class MoviesViewModel constructor(
         private val moviesRepository: MoviesRepository,
         schedulerProvider: ISchedulerProvider
 ) : BaseViewModel(schedulerProvider) {
-    val movies = MutableLiveData<Resource<Movies>>()
+    val movies = MutableLiveData<MoviesResource>()
 
     fun nextPage(): Observable<Movies> {
         val nextPage = movies.value?.data?.page?.plus(1) ?: 1
-        movies.postValue(Resource.loading(movies.value?.data?.let { it }))
+        movies.postValue(MoviesResource.loading(movies.value?.data?.let { it }))
         return execute(moviesRepository.getMovies(nextPage), {
             movies.value?.data?.let { previous ->
                 it.movies.addAll(0, previous.movies)
             }
-            movies.postValue(Resource.success(it))
+            movies.postValue(MoviesResource.success(it))
         }, {
-            movies.postValue(Resource.error(it))
+            movies.postValue(MoviesResource.error(it))
+        })
+    }
+
+    fun firstPage(): Observable<Movies> {
+        movies.postValue(MoviesResource.loading(null))
+        return execute(moviesRepository.getMovies(1), {
+            movies.postValue(MoviesResource.success(it))
+        }, {
+            movies.postValue(MoviesResource.error(it))
         })
     }
 }

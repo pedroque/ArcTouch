@@ -8,5 +8,9 @@ import retrofit2.http.Query
 
 interface MovieServices {
     @GET("movie/upcoming")
-    fun getUpcomingMovies(@Query("api_key") apiKey: String, @Query("page") page: Int) : Observable<MoviesEntity>
+    fun getUpcomingMovies(@Query("api_key") apiKey: String, @Query("page") page: Int): Observable<MoviesEntity>
+
+    @GET("search/movie")
+    fun searchMovie(@Query("api_key") apiKey: String, @Query("page") page: Int,
+                    @Query("query") query: String): Observable<MoviesEntity>
 }

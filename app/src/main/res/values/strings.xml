@@ -4,7 +4,9 @@
     <string name="unexpected_error">Something is shaking the Force.\nPlease, be careful.</string>
     <string name="movie_image">Movie image</string>
     <string name="genres_loading">Loading genres</string>
-    <string name="empty_movies">No movie found.\\nSearch only for good movies, please.</string>
+    <string name="empty_movies">No movie found.\nSearch only for good movies, please.</string>
     <string name="upcoming_movies_title">Upcoming Movies</string>
     <string name="search">Search movies</string>
+    <string name="search_movie_title">Search movie</string>
+    <string name="search_movie_content">Search for a good movie</string>
 </resources>

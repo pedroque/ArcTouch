@@ -6,4 +6,5 @@ import io.reactivex.Observable
 
 interface MovieDataSource {
     fun getUpcomingMovies(page: Int): Observable<Movies>
+    fun searchMovie(page: Int, query: String): Observable<Movies>
 }

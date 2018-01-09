@@ -44,8 +44,7 @@
                 android:layout_alignParentStart="true"
                 android:contentDescription="@string/movie_image"
                 app:config="@{config}"
-                app:item="@{item}"
-                app:placeholderImage="@drawable/ic_launcher_background" />
+                app:item="@{item}" />
 
 
             <View android:id="@+id/layer_view"

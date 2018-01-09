@@ -17,4 +17,8 @@ class CloudMoviesDataSource @Inject constructor(
     override fun getUpcomingMovies(page: Int): Observable<Movies> {
         return services.getUpcomingMovies(apiKey, page).map { mapper.transform(it) }
     }
+
+    override fun searchMovie(page: Int, query: String): Observable<Movies> {
+        return services.searchMovie(apiKey, page, query).map { mapper.transform(it) }
+    }
 }

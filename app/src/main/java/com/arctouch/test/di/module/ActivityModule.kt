@@ -19,6 +19,7 @@ package com.arctouch.test.di.module
 import com.arctouch.test.di.ActivityScope
 import com.arctouch.test.ui.activity.MovieActivity
 import com.arctouch.test.ui.activity.MoviesActivity
+import com.arctouch.test.ui.activity.SearchMovieActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -32,5 +33,9 @@ abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [(ConfigModule::class), (GenreModule::class), (MovieModule::class)])
     internal abstract fun contributeMovieActivity(): MovieActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [(ConfigModule::class), (GenreModule::class), (MovieModule::class)])
+    internal abstract fun contributeSearchMovieActivity(): SearchMovieActivity
 
 }

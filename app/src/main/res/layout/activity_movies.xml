@@ -8,7 +8,7 @@
 
         <variable
             name="resource"
-            type="com.arctouch.test.vm.Resource" />
+            type="com.arctouch.test.vm.MoviesResource" />
 
     </data>
 
@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/black"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar"
@@ -32,7 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:expandedTitleMarginBottom="48dp"
+                app:expandedTitleMarginStart="16dp">
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -74,6 +75,7 @@
             android:alpha="0"
             android:gravity="center"
             android:visibility="gone"
+            style="@style/Text.Subheading"
             app:resourceText="@{resource}"
             app:showIf="@{(resource.isEmpty || resource.status == Status.ERROR) &amp;&amp; resource.status != Status.LOADING}" />
     </android.support.design.widget.CoordinatorLayout>

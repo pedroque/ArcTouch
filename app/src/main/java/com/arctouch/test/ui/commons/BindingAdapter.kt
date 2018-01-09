@@ -19,7 +19,7 @@ object BindingAdapter {
         config?.let {
             item?.let {
                 val width = if (view.width > 0) view.width else 500
-                val url : String? = item.posterPath?.let { config.getPosterUrl(width, it) } ?:
+                val url: String? = item.posterPath?.let { config.getPosterUrl(width, it) } ?:
                         item.backdropPath?.let { config.getBackdropUrl(width, it) }
                 url?.let {
                     view.setImageURI(it)
@@ -48,6 +48,8 @@ object BindingAdapter {
     @JvmStatic
     @BindingAdapter("app:resourceText")
     fun resourceText(view: TextView, resource: Resource<Any>?) {
-        resource?.let { view.setText(resource.message) }
+        resource?.message?.let {
+            view.setText(it)
+        }
     }
 }

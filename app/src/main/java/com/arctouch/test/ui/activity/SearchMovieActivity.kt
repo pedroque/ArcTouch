@@ -2,25 +2,27 @@ package com.arctouch.test.ui.activity
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import com.arctouch.test.R
 import com.arctouch.test.data.model.Config
 import com.arctouch.test.data.model.Genre
 import com.arctouch.test.data.model.Movie
-import com.arctouch.test.databinding.ActivityMoviesBinding
+import com.arctouch.test.databinding.ActivitySearchMovieBinding
 import com.arctouch.test.ui.adapter.MoviesAdapter
+import com.arctouch.test.ui.commons.AutoClearedValue
 import com.arctouch.test.ui.commons.EndlessScrollListener
+import com.arctouch.test.vm.QueryViewModel
 import com.arctouch.test.vm.*
-import kotlinx.android.synthetic.main.activity_movies.*
+import kotlinx.android.synthetic.main.activity_search_movie.*
 import javax.inject.Inject
 
 
-class MoviesActivity : ArcTouchActivity() {
+class SearchMovieActivity : ArcTouchActivity() {
 
     @Inject
     lateinit var configViewModelFactory: ConfigViewModelFactory
@@ -33,36 +35,33 @@ class MoviesActivity : ArcTouchActivity() {
 
     private lateinit var configViewModel: ConfigViewModel
     private lateinit var genreViewModel: GenresViewModel
-    private lateinit var moviesViewModel: MoviesViewModel
+    private lateinit var moviesViewModel: SearchMoviesViewModel
+    private lateinit var queryViewModel: AutoClearedValue<QueryViewModel>
 
-    private lateinit var dataBinding: ActivityMoviesBinding
+    private lateinit var dataBinding: ActivitySearchMovieBinding
 
     private var adapter: MoviesAdapter? = null
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_movies, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_search -> navigateToSearch()
-        }
-        return super.onOptionsItemSelected(item)
-    }
+    private var endlessScrollListener: EndlessScrollListener? = null
 
     override fun setUp(savedInstanceState: Bundle?) {
         super.setUp(savedInstanceState)
-        dataBinding = DataBindingUtil.inflate(layoutInflater, R.layout.activity_movies, null, false)
+        dataBinding = DataBindingUtil.inflate(layoutInflater, R.layout.activity_search_movie, null, false)
         setContentView(dataBinding.root)
         configViewModel = ViewModelProviders.of(this, configViewModelFactory).get(ConfigViewModel::class.java)
         genreViewModel = ViewModelProviders.of(this, genresViewModelFactory).get(GenresViewModel::class.java)
-        moviesViewModel = ViewModelProviders.of(this, moviesViewModelFactory).get(MoviesViewModel::class.java)
+        moviesViewModel = ViewModelProviders.of(this, moviesViewModelFactory).get(SearchMoviesViewModel::class.java)
+        queryViewModel = AutoClearedValue(this, QueryViewModel(moviesViewModel.query))
+        dataBinding.query = queryViewModel.value
     }
 
     override fun onViewCreated(savedInstanceState: Bundle?) {
         super.onViewCreated(savedInstanceState)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setUpRecycler()
+    }
+
+    private fun setUpRecycler() {
         movies_recycler.setHasFixedSize(true)
         movies_recycler.layoutManager = LinearLayoutManager(this)
         adapter = MoviesAdapter()
@@ -73,7 +72,7 @@ class MoviesActivity : ArcTouchActivity() {
         }
         adapter?.replace(mutableListOf<Movie>())
         movies_recycler.adapter = adapter
-        val scrollListener = object : EndlessScrollListener() {
+        endlessScrollListener = object : EndlessScrollListener() {
             override fun onLoadMore() {
                 val currentPage = moviesViewModel.movies.value?.data?.page ?: 1
                 val totalPage = moviesViewModel.movies.value?.data?.totalPages ?: 1
@@ -83,7 +82,7 @@ class MoviesActivity : ArcTouchActivity() {
                 }
             }
         }
-        movies_recycler.addOnScrollListener(scrollListener)
+        movies_recycler.addOnScrollListener(endlessScrollListener)
     }
 
     override fun bind(savedInstanceState: Bundle?) {
@@ -100,12 +99,20 @@ class MoviesActivity : ArcTouchActivity() {
             dataBinding.resource = it
             adapter?.loading = it?.status == Resource.Status.LOADING
             if (it?.status == Resource.Status.SUCCESS) {
-                if (it.isEmpty) setEmptyMovies() else setMovies(it.data!!.movies)
+                when {
+                    it.data == null -> setEmptySearch()
+                    it.isEmpty -> setEmptyMovies()
+                    else -> setMovies(it.data.movies)
+                }
             } else if (it?.status == Resource.Status.ERROR) {
                 if (!it.isEmpty) {
                     setNextPageError(it.message!!)
                 }
             }
+        })
+        queryViewModel.value?.data?.observe(this, Observer<String> {
+            moviesViewModel.query = it!!
+            endlessScrollListener?.reset()
         })
         if (configViewModel.config.value == null) {
             configViewModel.fetchConfig()
@@ -113,17 +120,14 @@ class MoviesActivity : ArcTouchActivity() {
         if (genreViewModel.genres.value == null) {
             genreViewModel.fetchGenres()
         }
-        if (moviesViewModel.movies.value == null) {
-            moviesViewModel.firstPage()
-        }
+    }
+
+    private fun setEmptySearch() {
+        error_text.setText(R.string.search_movie_content)
     }
 
     private fun navigateToMovie(movie: Movie) {
         startActivity(MovieActivity.getIntent(this, movie))
-    }
-
-    private fun navigateToSearch() {
-        startActivity(SearchMovieActivity.getIntent(this))
     }
 
     private fun setNextPageError(message: Int) {
@@ -144,5 +148,12 @@ class MoviesActivity : ArcTouchActivity() {
 
     private fun setMoviesPicConfig(config: Config) {
         adapter?.config = config
+    }
+
+    companion object {
+        @JvmStatic
+        fun getIntent(context: Context): Intent {
+            return Intent(context, SearchMovieActivity::class.java)
+        }
     }
 }

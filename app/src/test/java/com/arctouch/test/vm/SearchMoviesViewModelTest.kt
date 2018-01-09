@@ -11,14 +11,14 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import org.mockito.ArgumentMatchers
 import org.mockito.Mock
 import org.mockito.Mockito
-import org.mockito.Mockito.anyInt
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import java.io.IOException
 
-class MoviesViewModelTest {
+class SearchMoviesViewModelTest {
     @Rule
     @JvmField
     val rule: TestRule = InstantTaskExecutorRule()
@@ -28,14 +28,14 @@ class MoviesViewModelTest {
     @Mock
     private lateinit var observer: Observer<MoviesResource>
 
-    private lateinit var moviesViewModel: MoviesViewModel
+    private lateinit var moviesViewModel: SearchMoviesViewModel
 
     private val firstPageMovies = Movies()
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        moviesViewModel = MoviesViewModel(moviesRepository, TestScheduleProvider())
+        moviesViewModel = SearchMoviesViewModel(moviesRepository, TestScheduleProvider())
         firstPageMovies.movies = mutableListOf()
         firstPageMovies.movies.add(Movie())
         firstPageMovies.movies.add(Movie())
@@ -44,6 +44,7 @@ class MoviesViewModelTest {
         firstPageMovies.totalPages = 10
         val moviesResource = MoviesResource.success(firstPageMovies)
         moviesViewModel.movies.value = moviesResource
+        moviesViewModel.query = "query"
     }
 
     @Test
@@ -55,7 +56,7 @@ class MoviesViewModelTest {
         movies.movies.add(Movie())
         movies.page = 2
         movies.totalPages = 10
-        Mockito.`when`(moviesRepository.getMovies(anyInt())).thenReturn(Observable.just(movies))
+        Mockito.`when`(moviesRepository.getMovies(anyInt(), anyString())).thenReturn(Observable.just(movies))
         moviesViewModel.movies.observeForever(observer)
         moviesViewModel.nextPage()
                 .test()
@@ -63,7 +64,7 @@ class MoviesViewModelTest {
                 .assertComplete()
                 .assertValue(movies)
                 .awaitTerminalEvent()
-        verify(moviesRepository).getMovies(2)
+        verify(moviesRepository).getMovies(2, "query")
         verify(observer).onChanged(MoviesResource.loading(firstPageMovies))
         movies.movies.addAll(0, firstPageMovies.movies)
         verify(observer).onChanged(MoviesResource.success(movies))
@@ -72,7 +73,7 @@ class MoviesViewModelTest {
     @Test
     fun nextPageError() {
         val error = IOException()
-        Mockito.`when`(moviesRepository.getMovies(anyInt())).thenReturn(Observable.error(error))
+        Mockito.`when`(moviesRepository.getMovies(anyInt(), anyString())).thenReturn(Observable.error(error))
         moviesViewModel.movies.observeForever(observer)
         moviesViewModel.nextPage()
                 .test()
@@ -80,44 +81,8 @@ class MoviesViewModelTest {
                 .assertNotComplete()
                 .assertNoValues()
                 .awaitTerminalEvent()
-        verify(moviesRepository).getMovies(2)
+        verify(moviesRepository).getMovies(2, "query")
         verify(observer).onChanged(MoviesResource.loading(firstPageMovies))
-        verify(observer).onChanged(MoviesResource.error(error))
-    }
-
-    @Test
-    fun firstPage() {
-        val movies = Movies()
-        movies.movies = mutableListOf()
-        movies.movies.add(Movie())
-        movies.movies.add(Movie())
-        movies.movies.add(Movie())
-        Mockito.`when`(moviesRepository.getMovies(anyInt())).thenReturn(Observable.just(movies))
-        moviesViewModel.movies.observeForever(observer)
-        moviesViewModel.firstPage()
-                .test()
-                .assertNoErrors()
-                .assertComplete()
-                .assertValue(movies)
-                .awaitTerminalEvent()
-        verify(moviesRepository).getMovies(1)
-        verify(observer).onChanged(MoviesResource.loading(null))
-        verify(observer).onChanged(MoviesResource.success(movies))
-    }
-
-    @Test
-    fun firstPageError() {
-        val error = IOException()
-        Mockito.`when`(moviesRepository.getMovies(anyInt())).thenReturn(Observable.error(error))
-        moviesViewModel.movies.observeForever(observer)
-        moviesViewModel.firstPage()
-                .test()
-                .assertError(error)
-                .assertNotComplete()
-                .assertNoValues()
-                .awaitTerminalEvent()
-        verify(moviesRepository).getMovies(1)
-        verify(observer).onChanged(MoviesResource.loading(null))
         verify(observer).onChanged(MoviesResource.error(error))
     }
 
