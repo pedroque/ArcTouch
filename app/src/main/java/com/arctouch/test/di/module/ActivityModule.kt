@@ -25,7 +25,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ActivityModule {
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [(ConfigModule::class), (GenreModule::class)])
+    @ContributesAndroidInjector(modules = [(ConfigModule::class), (GenreModule::class), (MovieModule::class)])
     internal abstract fun contributeMoviesActivity(): MoviesActivity
 
 }

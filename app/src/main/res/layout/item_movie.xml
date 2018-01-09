@@ -44,8 +44,9 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:contentDescription="@string/movie_image"
+            app:placeholderImage="@drawable/ic_launcher_background"
             app:config="@{config}"
-            app:url="@{item.posterPath ?? item.backdropPath}" />
+            app:item="@{item}" />
 
         <TextView
             android:id="@+id/movie_name_text"

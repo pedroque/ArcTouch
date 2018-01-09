@@ -14,7 +14,6 @@ class GenresViewModel constructor(
     val genres = MutableLiveData<Resource<List<Genre>>>()
 
     fun fetchGenres(): Observable<List<Genre>> {
-        genres.postValue(Resource.loading())
         return execute(genresRepository.getGenres(), {
             genres.postValue(Resource.success(it))
         }, {

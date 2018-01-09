@@ -15,7 +15,7 @@ data class Resource<out T>(
         get() = data == null || (data is Collection<*> && data.isEmpty())
 
     companion object {
-        fun loading() = Resource(Status.LOADING, null)
+        fun <T> loading(data: T?) = Resource(Status.LOADING, data)
         fun <T> success(data: T?) = Resource(Status.SUCCESS, data)
         fun <T> error(error: Throwable, data: T? = null) = Resource(Status.ERROR, data, error)
     }

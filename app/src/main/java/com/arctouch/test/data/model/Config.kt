@@ -22,5 +22,5 @@ open class Config : RealmObject() {
             baseUrl + getPreferredSize(list, width) + path
 
     private fun getPreferredSize(list: RealmList<String>, width: Int) = list.filter { it.startsWith("w") }
-            .first { it.substring(1).toInt() <= width }
+            .firstOrNull { it.substring(1).toInt() <= width } ?: "original"
 }

@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                app:showIf="@{resource.status == Status.LOADING}"/>
+                app:showIf="@{resource.status == Status.LOADING &amp;&amp; resource.isEmpty}"/>
 
             <TextView
                 android:id="@+id/error_text"
@@ -54,7 +54,7 @@
                 android:gravity="center"
                 android:visibility="gone"
                 app:resourceText="@{resource}"
-                app:showIf="@{resource.isEmpty || resource.status == Status.ERROR}"/>
+                app:showIf="@{(resource.isEmpty || resource.status == Status.ERROR) &amp;&amp; resource.status != Status.LOADING}"/>
         </RelativeLayout>
     </LinearLayout>
 </layout>

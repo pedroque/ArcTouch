@@ -1,14 +1,20 @@
 package com.arctouch.test.ui.adapter
 
+import android.os.Handler
 import com.arctouch.test.R
 
 
 abstract class EndlessAdapter : ArcTouchAdapter() {
+
+    val handler = Handler()
+
     var loading: Boolean = false
         set (value) {
             if (field != value) {
                 field = value
-                if (value) notifyItemInserted(itemCount - 1) else notifyItemRemoved(itemCount)
+                handler.post {
+                    if (value) notifyItemInserted(itemCount - 1) else notifyItemRemoved(itemCount)
+                }
             }
         }
 

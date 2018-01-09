@@ -3,11 +3,11 @@ package com.arctouch.test.di.module
 import com.arctouch.test.BuildConfig
 import com.arctouch.test.app.ArcTouchApp
 import com.arctouch.test.app.Preferences
+import com.arctouch.test.data.net.*
 import com.arctouch.test.di.Environment
 import com.arctouch.test.di.GsonTypeAdapter
 import com.arctouch.test.di.LogInterceptor
 import com.arctouch.test.di.Named
-import com.arctouch.test.data.net.*
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.TypeAdapter
@@ -116,4 +116,9 @@ class NetModule {
     @Reusable
     internal fun provideGenreServices(retrofit: Retrofit) =
             retrofit.create<GenreServices>(GenreServices::class.java)
+
+    @Provides
+    @Reusable
+    internal fun provideMovieServices(retrofit: Retrofit) =
+            retrofit.create<MovieServices>(MovieServices::class.java)
 }
