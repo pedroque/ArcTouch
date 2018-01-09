@@ -5,7 +5,7 @@ See upcoming movies, search for your favorite one and see its description.
 ## Dependencies. Why?
 
 - Fresco
-  - Fancy image downloader. I prefer it over Picasso because has more functions and it's easier to use in xml (data binding++)
+  - Fancy image downloader. I prefer it over Picasso because it has more functions and it's easier to use in xml (data binding++)
 - Rx
   - Architeture requirement for reactive apps with MVVM
 - Retrofit2
