@@ -16,6 +16,8 @@ class ConfigViewModel constructor(
     fun fetchConfig(): Observable<Config> {
         return execute(configRepository.getConfig(), {
             config.postValue(it)
+        }, {
+
         })
     }
 }
